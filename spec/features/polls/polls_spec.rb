@@ -59,7 +59,7 @@ feature 'Polls' do
 
   context 'Show' do
     let(:geozone) { create(:geozone) }
-    let(:poll) { create(:poll) }
+    let(:poll) { create(:poll, summary: "Summary", description: "Description") }
 
     scenario 'Lists questions from proposals as well as regular ones' do
       normal_question = create(:poll_question, poll: poll)
@@ -67,6 +67,8 @@ feature 'Polls' do
 
       visit poll_path(poll)
       expect(page).to have_content(poll.name)
+      expect(page).to have_content(poll.summary)
+      expect(page).to have_content(poll.description)
 
       expect(page).to have_content(normal_question.title)
       expect(page).to have_content(proposal_question.title)

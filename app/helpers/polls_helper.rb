@@ -41,4 +41,13 @@ module PollsHelper
     booth.name + location
   end
 
+  def poll_summary(poll)
+    simple_format(poll.summary)
+  end
+
+  def poll_description(poll)
+    description = '<div class="small-12 medium-9 column">' + "<h3>Más información</h3>" + "#{poll.description}</div>"
+    simple_format(description)
+  end
+
 end
