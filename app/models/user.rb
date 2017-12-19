@@ -12,26 +12,26 @@ class User < ActiveRecord::Base
 
   include Graphqlable
 
-  has_one :administrator
-  has_one :moderator
-  has_one :valuator
-  has_one :manager
-  has_one :poll_officer, class_name: "Poll::Officer"
-  has_one :organization
-  has_one :lock
-  has_many :flags
+  has_one :administrator, dependent: :destroy
+  has_one :moderator, dependent: :destroy
+  has_one :valuator, dependent: :destroy
+  has_one :manager, dependent: :destroy
+  has_one :poll_officer, class_name: "Poll::Officer", dependent: :destroy
+  has_one :organization, dependent: :destroy
+  has_one :lock, dependent: :destroy
+  has_many :flags, dependent: :destroy
   has_many :identities, dependent: :destroy
   has_many :debates, -> { with_hidden }, foreign_key: :author_id
   has_many :proposals, -> { with_hidden }, foreign_key: :author_id
   has_many :budget_investments, -> { with_hidden }, foreign_key: :author_id, class_name: 'Budget::Investment'
   has_many :comments, -> { with_hidden }
-  has_many :spending_proposals, foreign_key: :author_id
-  has_many :failed_census_calls
-  has_many :notifications
-  has_many :direct_messages_sent,     class_name: 'DirectMessage', foreign_key: :sender_id
-  has_many :direct_messages_received, class_name: 'DirectMessage', foreign_key: :receiver_id
+  has_many :spending_proposals, foreign_key: :author_id, dependent: :destroy
+  has_many :failed_census_calls, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :direct_messages_sent,     class_name: 'DirectMessage', foreign_key: :sender_id, dependent: :destroy
+  has_many :direct_messages_received, class_name: 'DirectMessage', foreign_key: :receiver_id, dependent: :destroy
   has_many :legislation_answers, class_name: 'Legislation::Answer', dependent: :destroy, inverse_of: :user
-  has_many :follows
+  has_many :follows, dependent: :destroy
   belongs_to :geozone
 
   validates :username, presence: true, if: :username_required?
@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
       oauth_email: oauth_email,
       password: Devise.friendly_token[0, 20],
       terms_of_service: '1',
-      confirmed_at: oauth_email_confirmed ? DateTime.current : nil
+      confirmed_at: oauth_email_confirmed ? Time.current : nil
     )
   end
 
@@ -146,7 +146,7 @@ class User < ActiveRecord::Base
   end
 
   def verified_organization?
-    organization && organization.verified?
+    organization&.verified?
   end
 
   def official?
@@ -283,7 +283,7 @@ class User < ActiveRecord::Base
     begin
       self.registering_with_oauth = true
       save(validate: false)
-    # Devise puts unique constraints for the email the db, so we must detect & handle that
+    # Devise puts unique constraints for the email in the DB, so we must detect & handle that
     rescue ActiveRecord::RecordNotUnique
       self.email = nil
       save(validate: false)
