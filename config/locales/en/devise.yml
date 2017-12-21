@@ -68,3 +68,4 @@ en:
         one: "1 error prevented this %{resource} from being saved. Please check the marked fields to know how to correct them:"
         other: "%{count} errors prevented this %{resource} from being saved. Please check the marked fields to know how to correct them:"
       equal_to_current_password: "must be different than the current password."
+      blocked_account: "You can't signup/signin with %{email} because it has been blocked"

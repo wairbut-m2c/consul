@@ -279,18 +279,6 @@ class User < ActiveRecord::Base
     Age.in_years(date_of_birth)
   end
 
-  def save_requiring_finish_signup
-    begin
-      self.registering_with_oauth = true
-      save(validate: false)
-    # Devise puts unique constraints for the email in the DB, so we must detect & handle that
-    rescue ActiveRecord::RecordNotUnique
-      self.email = nil
-      save(validate: false)
-    end
-    true
-  end
-
   def ability
     @ability ||= Ability.new(self)
   end

@@ -16,6 +16,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       render :new
     end
+  rescue ActiveRecord::RecordNotUnique
+    redirect_to new_user_registration_path,
+                notice: t("errors.messages.blocked_account", email: sign_up_params[:email])
   end
 
   def delete_form

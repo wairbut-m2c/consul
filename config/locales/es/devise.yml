@@ -63,3 +63,4 @@ es:
         one: "1 error impidió que este %{resource} fuera guardado. Por favor revisa los campos marcados para saber cómo corregirlos:"
         other: "%{count} errores impidieron que este %{resource} fuera guardado. Por favor revisa los campos marcados para saber cómo corregirlos:"
       equal_to_current_password: "debe ser diferente a la contraseña actual"
+      blocked_account: "No puede registrarse y/o iniciar sesión con %{email} porque ha sido bloqueada"
