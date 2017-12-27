@@ -125,9 +125,12 @@ feature 'Users' do
 
         visit '/'
         click_link 'Register'
-
         click_link 'Sign up with Twitter'
 
+        expect(current_path).to eq(finish_signup_path)
+        click_button 'Register'
+
+        confirm_email
         expect_to_be_signed_in
 
         click_link 'My account'
@@ -145,11 +148,12 @@ feature 'Users' do
 
         click_link 'Sign up with Twitter'
 
-        expect(page).to have_current_path(new_user_session_path)
+        expect(current_path).to eq(finish_signup_path)
+        click_button 'Register'
+
         expect(page).to have_content "To continue, please click on the confirmation link that we have sent you via email"
 
         confirm_email
-        expect(page).to have_content "Your account has been confirmed"
 
         visit '/'
         click_link 'Sign in'
@@ -243,6 +247,7 @@ feature 'Users' do
         fill_in 'user_username', with: 'manuela2'
         click_button 'Register'
 
+        confirm_email
         expect_to_be_signed_in
 
         click_link 'My account'
