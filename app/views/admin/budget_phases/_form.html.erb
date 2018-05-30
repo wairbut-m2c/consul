@@ -37,21 +37,11 @@
       <%= t("admin.budget_phases.edit.summary_help_text") %>
     </span>
 
-<<<<<<< HEAD
-    <%= f.cktext_area :summary,
-                      maxlength: Budget::Phase::SUMMARY_MAX_LENGTH,
-                      ckeditor: { language: I18n.locale },
-                      label: false %>
+    <%= f.text_area :summary,
+                    maxlength: Budget::Phase::SUMMARY_MAX_LENGTH,
+                    class: 'ckeditor', ckeditor_lang: I18n.locale,
+                    label: false %>
   </div>
-=======
-        <%= f.text_area :summary,
-                          maxlength: Budget::Phase::SUMMARY_MAX_LENGTH,
-                          class: 'ckeditor', ckeditor_lang: I18n.locale,
-                          label: false %>
-      </div>
-    </div>
->>>>>>> 2cb71da87... Change the old calls to ckeditor for the new ones
-
 
   <div class="small-12 column margin-top">
     <%= f.check_box :enabled, label: t("admin.budget_phases.edit.enabled") %>

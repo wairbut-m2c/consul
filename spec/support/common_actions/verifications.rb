@@ -48,10 +48,7 @@ module Verifications
     locator = find('label', text: locator)[:for] if page.has_css?('label', text: locator)
     # Fill the editor content
     page.execute_script <<-SCRIPT
-        var ckeditor = CKEDITOR.instances.#{locator}
-        ckeditor.setData('#{params[:with]}')
-        ckeditor.focus()
-        ckeditor.updateElement()
+        window.editor.setData('#{params[:with]}')
     SCRIPT
   end
 end
