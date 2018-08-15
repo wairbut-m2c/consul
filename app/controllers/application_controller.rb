@@ -46,6 +46,13 @@ class ApplicationController < ActionController::Base
     end
 
     def set_locale
+      puts ""
+      puts "REQ START"
+      puts ('request.env["HTTP_COOKIE"]: ' + request.env["HTTP_COOKIE"].inspect)
+      puts "I18n.locale: #{I18n.locale}"
+      puts "I18n.default_locale: #{I18n.default_locale}"
+      puts "params[:locale]: #{params[:locale]}"
+      puts "session[:locale]: #{session[:locale]}"
       if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
         session[:locale] = params[:locale]
       end
